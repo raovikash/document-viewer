@@ -1,23 +1,43 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import FileViewer from './components/FileViewer';
 import './App.css';
 
 function App() {
+  const [fileContent, setFileContent] = useState('');
+  const [fileExtension, setFileExtension] = useState('');
+
+  const handleContentChange = (e) => {
+    setFileContent(e.target.value);
+  };
+
+  const handleExtensionChange = (e) => {
+    setFileExtension(e.target.value);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>File Viewer</h1>
+      
+      <div className="input-section">
+        <textarea
+          placeholder="Paste base64 file content here"
+          value={fileContent}
+          onChange={handleContentChange}
+        />
+        <input
+          type="text"
+          placeholder="File extension (e.g., .docx, .pdf, .png)"
+          value={fileExtension}
+          onChange={handleExtensionChange}
+        />
+      </div>
+
+      {fileContent && fileExtension && (
+        <div className="viewer-section">
+          <h2>File Preview</h2>
+          <FileViewer base64Content={fileContent} extension={fileExtension} />
+        </div>
+      )}
     </div>
   );
 }
